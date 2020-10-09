@@ -42,7 +42,11 @@ module.exports = {
             {
                 exclude: /\.(html|js|css|less|jpg|png|gif|jpeg)/,
                 loader: 'file-loader',
-                outputPath: 'media',
+                options: {
+                    name: '[hash:10].[ext]',
+                    outputPath: 'media'
+                    
+                }
             }
 
         ]
