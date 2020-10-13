@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 const { resolve } = require('path');
 // 处理html中的图片
 const HtmlWebpackPLugin = require('html-webpack-plugin');
@@ -12,15 +13,16 @@ const CommonCssLoader = [
   //  把css切入到js中
   'css-loader',
   // 做兼容性处理
-  // {
-  //     loader: 'postcss-loader',
-  //     options: {
-  //         ident: 'postcss',
-  //         plugins: () =>{
-  //             require('postcss-preset-env')()
-  //         }
-  //     }
-  // },
+  {
+    loader: 'postcss-loader',
+    // options: {
+    //   ident: 'postcss',
+    //   plugins: [
+    //     // eslint-disable-next-line import/no-unresolved
+    //     require('postcss-preset-env')(),
+    //   ],
+    // },
+  },
 ];
 
 process.env.NODE_ENV = 'production';
@@ -61,25 +63,25 @@ module.exports = {
       },
       {
         // 兼容js
-        // test: /\.js$/,
-        // exclude: /node_modules/,
-        // loader: 'babel-loader',
-        // options: {
-        //     presets: [
-        //         [
-        //             '@babel/preset-env',
-        //             {
-        //                 // 按需加载
-        //                 useBuiltIns: 'usage',
-        //                 corejs: {version: 3},
-        //                 targets: {
-        //                     chrome: '60',
-        //                     firefox: '50'
-        //                 }
-        //             }
-        //         ]
-        //     ]
-        // }
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+        options: {
+          presets: [
+            [
+              'env',
+              {
+              // 按需加载
+                useBuiltIns: 'usage',
+                corejs: { version: 3 },
+                targets: {
+                  chrome: '60',
+                  firefox: '50',
+                },
+              },
+            ],
+          ],
+        },
       },
       {
         // 处理图片
@@ -96,11 +98,6 @@ module.exports = {
         // 处理html中的图片
         test: /\.html$/,
         loader: 'html-loader',
-        // options: {
-        //     limit: 8*1024,
-        //     name: '[hash:10].[ext]',
-        //     outputPath: 'imgs',
-        // }
       },
       {
         // 处理其他文件
